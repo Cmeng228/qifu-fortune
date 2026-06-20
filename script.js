@@ -100,12 +100,17 @@ tabs.forEach((tab) => {
     renderFortune();
   });
 });
-$("#startButton").addEventListener("click", () => {
+function showResultScreen() {
   $("#startScreen").classList.add("hidden");
   $("#resultScreen").classList.remove("hidden");
   renderFortune();
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+$("#startForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  showResultScreen();
 });
+$("#startButton").addEventListener("click", showResultScreen);
 $("#resetButton").addEventListener("click", () => {
   $("#resultScreen").classList.add("hidden");
   $("#startScreen").classList.remove("hidden");
