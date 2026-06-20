@@ -8,66 +8,56 @@
   </head>
   <body>
     <main class="app-shell">
-      <section class="hero">
-        <div class="hero-art" aria-hidden="true">
-          <div class="sun"></div>
-          <div class="orbit orbit-one"></div>
-          <div class="orbit orbit-two"></div>
-          <div class="star star-a"></div>
-          <div class="star star-b"></div>
-          <div class="star star-c"></div>
-        </div>
-        <div class="hero-content">
-          <p class="eyebrow">2026 今日生活指引</p>
-          <h1>好运日历</h1>
-          <p class="intro">输入昵称，生成你的专属今日运势、狼人杀抽奖签和可分享好运卡。</p>
-          <div class="today-strip">
-            <span id="todayText">今日</span>
-            <strong>先定制，再开运</strong>
-          </div>
+      <section class="start-screen" id="startScreen">
+        <div class="start-orbit" aria-hidden="true"></div>
+        <div class="start-card">
+          <p class="eyebrow">好运日历</p>
+          <h1>生成你的今日好运签</h1>
+          <p class="start-copy">先留下昵称，后面的运势、抽奖概率和祈福改运都会只属于你。</p>
+          <label for="userName">你的昵称</label>
+          <input id="userName" maxlength="12" placeholder="比如：小林" autocomplete="nickname" />
+          <button id="startButton" type="button">开始生成</button>
         </div>
       </section>
 
-      <section class="personal-panel" aria-label="专属运势定制">
-        <div class="personal-copy">
-          <p class="label">专属好运档案</p>
-          <h2>今天这张签，只属于你</h2>
-          <p>写下你的昵称，选择星座或生肖，系统会生成带名字的今日运势和狼人杀抽奖建议。</p>
-        </div>
-        <div class="personal-form">
-          <label for="userName">你的昵称</label>
-          <input id="userName" maxlength="12" placeholder="比如：小林" />
+      <section class="result-screen hidden" id="resultScreen">
+        <header class="compact-header">
+          <div>
+            <p class="eyebrow" id="todayText">今日</p>
+            <h2 id="personalTitle">小林的今日好运签</h2>
+          </div>
+          <button class="text-button" id="resetButton" type="button">重填</button>
+        </header>
+
+        <section class="picker-card">
           <div class="mode-tabs" role="tablist" aria-label="测算方式">
             <button class="tab active" type="button" data-mode="constellation">星座</button>
             <button class="tab" type="button" data-mode="zodiac">生肖</button>
           </div>
-          <label for="fortuneSelect">选择类型</label>
           <select id="fortuneSelect"></select>
-          <button id="drawFortune" type="button">生成我的专属好运卡</button>
-        </div>
-      </section>
-
-      <section class="fortune-panel" id="fortunePanel" aria-label="今日运势结果">
-        <div class="result-banner">
-          <p class="label">今日专属签</p>
-          <h2 id="personalTitle">小林的今日好运签</h2>
-          <p id="personalTagline">今天的关键词：稳住节奏，抽奖别上头。</p>
-        </div>
+          <button id="drawFortune" type="button">刷新专属运势</button>
+        </section>
 
         <article class="lottery-card" id="lotteryCard">
           <div class="lottery-main">
             <p class="label">狼人杀当日抽奖运势</p>
             <h2 id="lotteryTitle">今日适合抽身份皮肤</h2>
-            <p id="lotteryText">当前抽奖气场偏稳，适合小试一次，优先选择活动池或保底进度接近的卡池。</p>
+            <p id="lotteryText">当前抽奖气场偏稳，适合小试一次。</p>
           </div>
-          <div class="lottery-score">
-            <span id="lotteryLevel">小吉</span>
-            <strong id="lotteryRate">68%</strong>
-            <em id="lotteryHint">点灯后可改运</em>
+          <div class="lottery-action">
+            <div class="lottery-score">
+              <span id="lotteryLevel">小吉</span>
+              <strong id="lotteryRate">68%</strong>
+              <em id="lotteryHint">点灯后可改运</em>
+            </div>
+            <button class="lamp-button" id="lampButton" type="button" aria-label="点灯改运">
+              <span class="flame"></span>
+              <span id="lampText">点灯改运</span>
+            </button>
           </div>
         </article>
 
-        <article class="result-card" id="resultCard">
+        <article class="result-card">
           <div class="result-header">
             <div>
               <p class="label">今日综合运势</p>
@@ -75,58 +65,35 @@
             </div>
             <div class="score" id="scoreText">★★★★☆</div>
           </div>
-
-          <p class="summary" id="summaryText">今天适合把注意力收回到正在推进的事情上，稳住节奏，机会会从细节里浮出来。</p>
-
+          <p class="summary" id="summaryText">今天适合稳住自己的节奏。</p>
           <div class="metric-grid">
             <div class="metric"><span>事业</span><strong id="careerText">★★★★☆</strong></div>
             <div class="metric"><span>财运</span><strong id="moneyText">★★★☆☆</strong></div>
             <div class="metric"><span>感情</span><strong id="loveText">★★★★☆</strong></div>
             <div class="metric"><span>健康</span><strong id="healthText">★★★☆☆</strong></div>
           </div>
-
           <div class="advice-grid">
-            <div>
-              <span>今日宜</span>
-              <p id="goodText">整理计划、主动沟通、学习充电</p>
-            </div>
-            <div>
-              <span>今日忌</span>
-              <p id="avoidText">冲动消费、临时变卦、熬夜</p>
-            </div>
+            <div><span>今日宜</span><p id="goodText">整理计划、主动沟通、学习充电</p></div>
+            <div><span>今日忌</span><p id="avoidText">冲动消费、临时变卦、熬夜</p></div>
           </div>
-
           <div class="lucky-row">
             <div><span>幸运色</span><b id="colorText">青绿色</b></div>
             <div><span>幸运数字</span><b id="numberText">6</b></div>
             <div><span>幸运方位</span><b id="directionText">东南</b></div>
           </div>
         </article>
-      </section>
 
-      <section class="ritual-band">
-        <div>
-          <p class="label">今日祈福</p>
-          <h2>点亮一盏好运灯</h2>
-          <p>点灯后会重新修正你的狼人杀抽奖运势，并更新分享卡文案。</p>
-        </div>
-        <button class="lamp-button" id="lampButton" type="button" aria-label="点亮好运灯">
-          <span class="flame"></span>
-          <span id="lampText">点灯</span>
-        </button>
-      </section>
-
-      <section class="share-card">
-        <div class="share-preview">
-          <p class="label">分享卡预览</p>
-          <h2 id="shareTitle">小林的今日好运卡</h2>
-          <p id="shareText">我今天的狼人杀抽奖气场 68%，适合小抽试水，见好就收。</p>
-        </div>
-        <button id="copyShare" type="button">复制分享文案</button>
+        <section class="share-card">
+          <div class="share-preview">
+            <p class="label">分享卡预览</p>
+            <h2 id="shareTitle">小林的今日好运卡</h2>
+            <p id="shareText">我今天的狼人杀抽奖气场 68%。</p>
+          </div>
+          <button id="copyShare" type="button">复制分享文案</button>
+        </section>
       </section>
     </main>
-
-    <div class="toast" id="toast" role="status" aria-live="polite">已复制今日好运文案</div>
+    <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
     <script src="script.js"></script>
   </body>
 </html>
