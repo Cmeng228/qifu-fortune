@@ -56,7 +56,7 @@ input, select {
   color: var(--ink);
   background: #fffaf0;
 }
-.start-card button, .picker-card button, .share-card button, .text-button {
+.start-card button, .share-card button, .text-button {
   height: 48px;
   border: 0;
   border-radius: 8px;
@@ -68,6 +68,8 @@ input, select {
   color: #fffaf0;
   background: var(--jade);
 }
+.start-card .mode-tabs { width: 100%; margin-top: 16px; }
+.start-card select { margin-bottom: 0; }
 .compact-header, .picker-card, .result-card, .share-card {
   margin-top: 14px;
   padding: 16px;
@@ -83,12 +85,11 @@ input, select {
   justify-content: space-between;
 }
 .compact-header h2 { margin-bottom: 0; }
+.profile-line { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
 .text-button { padding: 0 14px; color: var(--ink); background: #ece4d5; }
-.picker-card { display: grid; grid-template-columns: auto minmax(180px, 1fr) auto; gap: 10px; align-items: center; }
 .mode-tabs { display: inline-grid; grid-template-columns: 1fr 1fr; padding: 4px; background: #ece4d5; border-radius: 8px; }
 .tab { min-width: 76px; border: 0; border-radius: 6px; padding: 9px 12px; color: var(--muted); background: transparent; cursor: pointer; }
 .tab.active { color: #fffaf0; background: var(--night); }
-.picker-card button { padding: 0 14px; color: #fffaf0; background: var(--night); }
 .lottery-card {
   position: relative;
   display: grid;
@@ -144,9 +145,9 @@ input, select {
 @media (max-width: 760px) {
   .app-shell { width: min(100% - 18px, 1100px); padding: 9px 0 28px; }
   .start-screen { min-height: calc(100vh - 18px); }
-  .compact-header, .picker-card, .result-card, .share-card, .lottery-card { padding: 14px; }
+  .compact-header, .result-card, .share-card, .lottery-card { padding: 14px; }
   .compact-header { align-items: flex-start; }
-  .picker-card, .lottery-card, .metric-grid, .advice-grid { grid-template-columns: 1fr; }
+  .lottery-card, .metric-grid, .advice-grid { grid-template-columns: 1fr; }
   .mode-tabs { width: 100%; }
   .result-header, .share-card, .lucky-row { align-items: stretch; flex-direction: column; }
   .lottery-main h2, .share-preview h2 { font-size: 23px; }

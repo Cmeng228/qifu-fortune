@@ -13,10 +13,16 @@
         <div class="start-card">
           <p class="eyebrow">好运日历</p>
           <h1>生成你的今日好运签</h1>
-          <p class="start-copy">先留下昵称，后面的运势、抽奖概率和祈福改运都会只属于你。</p>
+          <p class="start-copy">先选好昵称和命盘类型，后面的运势、抽奖概率和祈福改运都会只属于你。</p>
           <form id="startForm">
             <label for="userName">你的昵称</label>
             <input id="userName" maxlength="12" placeholder="比如：小林" autocomplete="nickname" />
+            <div class="mode-tabs" role="tablist" aria-label="测算方式">
+              <button class="tab active" type="button" data-mode="constellation">星座</button>
+              <button class="tab" type="button" data-mode="zodiac">生肖</button>
+            </div>
+            <label for="fortuneSelect">选择你的类型</label>
+            <select id="fortuneSelect"></select>
             <button id="startButton" type="submit">开始生成</button>
           </form>
         </div>
@@ -27,18 +33,10 @@
           <div>
             <p class="eyebrow" id="todayText">今日</p>
             <h2 id="personalTitle">小林的今日好运签</h2>
+            <p class="profile-line" id="profileLine">白羊座 · 今日专属档案</p>
           </div>
           <button class="text-button" id="resetButton" type="button">重填</button>
         </header>
-
-        <section class="picker-card">
-          <div class="mode-tabs" role="tablist" aria-label="测算方式">
-            <button class="tab active" type="button" data-mode="constellation">星座</button>
-            <button class="tab" type="button" data-mode="zodiac">生肖</button>
-          </div>
-          <select id="fortuneSelect"></select>
-          <button id="drawFortune" type="button">刷新专属运势</button>
-        </section>
 
         <article class="lottery-card" id="lotteryCard">
           <div class="lottery-main">

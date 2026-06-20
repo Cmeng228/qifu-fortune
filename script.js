@@ -2,7 +2,6 @@ const data = {
   constellation: { suffix: "", options: ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"] },
   zodiac: { suffix: "生肖", options: ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"] },
 };
-
 const summaries = [
   "今天适合稳住自己的节奏，先把手头的事情推进一小步，好消息会从细节里冒出来。",
   "今天的人际能量不错，适合主动表达想法，也适合把好运分享给朋友一起沾沾喜气。",
@@ -34,6 +33,9 @@ let currentLottery = lotteryPool[0];
 function getName() {
   return userNameInput.value.trim() || "神秘玩家";
 }
+function getTypeName() {
+  return `${select.value}${data[mode].suffix}`;
+}
 function hashValue(text) {
   return [...`${new Date().toDateString()}-${mode}-${getName()}-${text}`].reduce((sum, char) => sum + char.charCodeAt(0), 0);
 }
@@ -59,11 +61,12 @@ function renderLottery(seed) {
 function renderFortune() {
   const seed = hashValue(select.value);
   const name = getName();
-  const typeName = `${select.value}${data[mode].suffix}`;
+  const typeName = getTypeName();
   const keyword = keywords[seed % keywords.length];
   const color = colors[seed % colors.length];
   const number = (seed % 9) + 1;
   $("#personalTitle").textContent = `${name}的今日好运签`;
+  $("#profileLine").textContent = `${typeName} · 今日专属档案`;
   $("#resultTitle").textContent = `${typeName} · ${name}专属今日运势`;
   $("#summaryText").textContent = `${name}，${summaries[seed % summaries.length]}`;
   $("#scoreText").textContent = stars(seed, 1);
@@ -90,14 +93,12 @@ function showToast(message) {
   $("#toast").classList.add("show");
   window.setTimeout(() => $("#toast").classList.remove("show"), 1600);
 }
-
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     mode = tab.dataset.mode;
     resetBlessing();
     tabs.forEach((item) => item.classList.toggle("active", item === tab));
     populateSelect();
-    renderFortune();
   });
 });
 function showResultScreen() {
@@ -110,20 +111,10 @@ $("#startForm").addEventListener("submit", (event) => {
   event.preventDefault();
   showResultScreen();
 });
-$("#startButton").addEventListener("click", showResultScreen);
 $("#resetButton").addEventListener("click", () => {
   $("#resultScreen").classList.add("hidden");
   $("#startScreen").classList.remove("hidden");
   userNameInput.focus();
-});
-$("#drawFortune").addEventListener("click", () => {
-  resetBlessing();
-  renderFortune();
-  showToast("专属运势已刷新");
-});
-select.addEventListener("change", () => {
-  resetBlessing();
-  renderFortune();
 });
 $("#lampButton").addEventListener("click", () => {
   blessingBoost = 18;
