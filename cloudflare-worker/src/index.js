@@ -26,7 +26,7 @@ export default {
 
     try {
       if (!env.AI) throw new Error("Workers AI binding is missing");
-      const aiResponse = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+      const aiResponse = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
         messages: [
           { role: "system", content: "你只输出可 JSON.parse 的 JSON 对象。" },
           { role: "user", content: prompt }
@@ -75,8 +75,6 @@ function fallbackFortune(input, error) {
     lotteryText: boosted ? "祈福后气场更集中，适合小抽一次高光奖励。" : "当前手气偏稳，先看卡池再决定，别急着连抽。",
     lotteryLevel: level,
     lotteryRate: `${rate}%`,
-    shareText: `我抽到了「${name}的今日好运签」：${typeName}，狼人杀抽奖气场 ${rate}%，${boosted ? "祈福后更顺了。" : "先祈福再抽更有仪式感。"}`,
-    source: "fallback",
-    debug: error?.message || "AI unavailable"
+    shareText: `我抽到了「${name}的今日好运签」：${typeName}，狼人杀抽奖气场 ${rate}%，${boosted ? "祈福后更顺了。" : "先祈福再抽更有仪式感。"}`
   };
 }
