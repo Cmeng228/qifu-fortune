@@ -13,7 +13,7 @@
         <div class="start-card">
           <p class="eyebrow">好运日历</p>
           <h1>生成你的今日好运签</h1>
-          <p class="start-copy">先选好昵称和命盘类型，后面的运势、抽奖概率和祈福改运都会只属于你。</p>
+          <p class="start-copy">先填昵称，再选择星座或生肖。后面的运势、狼人杀抽奖概率和祈福改运都会只属于你。</p>
           <form id="startForm">
             <label for="userName">你的昵称</label>
             <input id="userName" maxlength="12" placeholder="比如：小林" autocomplete="nickname" />
@@ -32,8 +32,8 @@
         <header class="compact-header">
           <div>
             <p class="eyebrow" id="todayText">今日</p>
-            <h2 id="personalTitle">小林的今日好运签</h2>
-            <p class="profile-line" id="profileLine">白羊座 · 今日专属档案</p>
+            <h2 id="personalTitle">你的今日好运签</h2>
+            <p class="profile-line" id="profileLine">今日专属档案</p>
           </div>
           <button class="text-button" id="resetButton" type="button">重填</button>
         </header>
@@ -41,7 +41,7 @@
         <article class="lottery-card" id="lotteryCard">
           <div class="lottery-main">
             <p class="label">狼人杀当日抽奖运势</p>
-            <h2 id="lotteryTitle">今日适合抽身份皮肤</h2>
+            <h2 id="lotteryTitle">今日适合小抽试手气</h2>
             <p id="lotteryText">当前抽奖气场偏稳，适合小试一次。</p>
           </div>
           <div class="lottery-action">
@@ -61,15 +61,15 @@
           <div class="result-header">
             <div>
               <p class="label">今日综合运势</p>
-              <h2 id="resultTitle">白羊座 · 今日运势</h2>
+              <h2 id="resultTitle">今日运势</h2>
             </div>
-            <div class="score" id="scoreText">★★★★☆</div>
+            <div class="score" id="scoreText">★★★☆☆</div>
           </div>
           <p class="summary" id="summaryText">今天适合稳住自己的节奏。</p>
           <div class="metric-grid">
-            <div class="metric"><span>事业</span><strong id="careerText">★★★★☆</strong></div>
+            <div class="metric"><span>事业</span><strong id="careerText">★★★☆☆</strong></div>
             <div class="metric"><span>财运</span><strong id="moneyText">★★★☆☆</strong></div>
-            <div class="metric"><span>感情</span><strong id="loveText">★★★★☆</strong></div>
+            <div class="metric"><span>感情</span><strong id="loveText">★★★☆☆</strong></div>
             <div class="metric"><span>健康</span><strong id="healthText">★★★☆☆</strong></div>
           </div>
           <div class="advice-grid">
@@ -86,7 +86,7 @@
         <section class="share-card">
           <div class="share-preview">
             <p class="label">分享卡预览</p>
-            <h2 id="shareTitle">小林的今日好运卡</h2>
+            <h2 id="shareTitle">我的今日好运卡</h2>
             <p id="shareText">我今天的狼人杀抽奖气场 68%。</p>
           </div>
           <button id="copyShare" type="button">复制分享文案</button>
