@@ -29,7 +29,20 @@
       </section>
 
       <section class="result-screen hidden" id="resultScreen">
-        <header class="compact-header">
+        <section class="divination-loading" id="loadingPanel" aria-live="polite">
+          <div class="loading-orb" aria-hidden="true"></div>
+          <p class="eyebrow">正在占卜</p>
+          <h2 id="loadingTitle">正在为你抽取今日好运</h2>
+          <p id="loadingText">连接星座、生肖和狼人杀抽奖气场...</p>
+          <div class="progress-track"><span id="loadingProgress"></span></div>
+          <div class="loading-steps">
+            <span class="active" data-loading-step="0">读取档案</span>
+            <span data-loading-step="1">点亮祈愿</span>
+            <span data-loading-step="2">生成签文</span>
+          </div>
+        </section>
+
+        <header class="compact-header fortune-content">
           <div>
             <p class="eyebrow" id="todayText">今日</p>
             <h2 id="personalTitle">你的今日好运签</h2>
@@ -38,7 +51,7 @@
           <button class="text-button" id="resetButton" type="button">重填</button>
         </header>
 
-        <article class="lottery-card" id="lotteryCard">
+        <article class="lottery-card fortune-content" id="lotteryCard">
           <div class="lottery-main">
             <p class="label">狼人杀当日抽奖运势</p>
             <h2 id="lotteryTitle">今日适合小抽试手气</h2>
@@ -57,7 +70,7 @@
           </div>
         </article>
 
-        <article class="result-card">
+        <article class="result-card fortune-content">
           <div class="result-header">
             <div>
               <p class="label">今日综合运势</p>
@@ -83,7 +96,7 @@
           </div>
         </article>
 
-        <section class="share-card">
+        <section class="share-card fortune-content">
           <div class="share-preview">
             <p class="label">分享卡预览</p>
             <h2 id="shareTitle">我的今日好运卡</h2>

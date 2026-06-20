@@ -33,6 +33,7 @@ let mode = "constellation";
 let blessingBoost = 0;
 let currentLottery = lotteryPool[0];
 let aiFortune = null;
+let loadingTimer = null;
 
 function getName() {
   return userNameInput.value.trim() || "神秘玩家";
@@ -117,16 +118,49 @@ async function fetchAiFortune() {
 
 async function generateFortune() {
   aiFortune = null;
+  startLoading();
   if (window.AI_FORTUNE_ENDPOINT) {
-    showToast("AI 正在生成专属好运签");
     try {
       aiFortune = await fetchAiFortune();
-      showToast("AI 已生成专属好运签");
     } catch {
-      showToast("AI 暂时没接上，已用本地运势兜底");
+      aiFortune = null;
     }
   }
   renderFortune();
+  finishLoading(Boolean(aiFortune));
+}
+
+function startLoading() {
+  const resultScreen = $("#resultScreen");
+  const loadingProgress = $("#loadingProgress");
+  const loadingText = $("#loadingText");
+  const steps = document.querySelectorAll("[data-loading-step]");
+  const messages = [
+    "读取你的专属档案...",
+    "点亮今日祈愿和抽奖气场...",
+    "正在生成可以分享的好运签..."
+  ];
+  let step = 0;
+  window.clearInterval(loadingTimer);
+  resultScreen.classList.add("loading");
+  loadingProgress.style.width = "18%";
+  loadingText.textContent = messages[0];
+  steps.forEach((item, index) => item.classList.toggle("active", index === 0));
+  loadingTimer = window.setInterval(() => {
+    step = Math.min(step + 1, messages.length - 1);
+    loadingProgress.style.width = `${38 + step * 24}%`;
+    loadingText.textContent = messages[step];
+    steps.forEach((item, index) => item.classList.toggle("active", index <= step));
+  }, 1300);
+}
+
+function finishLoading(hasAiResult) {
+  window.clearInterval(loadingTimer);
+  $("#loadingProgress").style.width = "100%";
+  $("#loadingText").textContent = hasAiResult ? "占卜完成，今日好运已生成。" : "占卜完成，已生成今日好运。";
+  window.setTimeout(() => {
+    $("#resultScreen").classList.remove("loading");
+  }, 350);
 }
 
 function resetBlessing() {
@@ -159,6 +193,7 @@ $("#startForm").addEventListener("submit", (event) => {
 });
 
 $("#resetButton").addEventListener("click", () => {
+  window.clearInterval(loadingTimer);
   $("#resultScreen").classList.add("hidden");
   $("#startScreen").classList.remove("hidden");
   userNameInput.focus();
