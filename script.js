@@ -97,9 +97,12 @@ function renderFortune() {
 async function fetchAiFortune() {
   const endpoint = window.AI_FORTUNE_ENDPOINT;
   if (!endpoint) return null;
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 20000);
   const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
     body: JSON.stringify({
       name: getName(),
       mode: mode === "constellation" ? "星座" : "生肖",
@@ -107,6 +110,7 @@ async function fetchAiFortune() {
       boosted: blessingBoost > 0
     })
   });
+  window.clearTimeout(timeout);
   if (!response.ok) throw new Error("AI endpoint failed");
   return response.json();
 }
@@ -117,6 +121,7 @@ async function generateFortune() {
     showToast("AI 正在生成专属好运签");
     try {
       aiFortune = await fetchAiFortune();
+      showToast("AI 已生成专属好运签");
     } catch {
       showToast("AI 暂时没接上，已用本地运势兜底");
     }

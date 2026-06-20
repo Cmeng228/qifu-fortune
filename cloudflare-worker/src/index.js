@@ -14,14 +14,16 @@ export default {
     const prompt = [
       "你是中文娱乐运势生成器，文风要像朋友间会转发的小卡片。",
       "不要恐吓，不要承诺真实收益，不要说自己是 AI。",
+      "必须写今日运势，不要写本周、本月、彩票、真实投资或真钱中奖。",
+      "狼人杀抽奖只指游戏内皮肤、身份、头像框、装扮等奖励。",
       "只返回 JSON，不要 Markdown，不要解释。",
       "字段必须是 summary, good, avoid, lotteryTitle, lotteryText, lotteryLevel, lotteryRate, shareText。",
       `昵称：${input.name || "神秘玩家"}`,
       `类型：${input.typeName || "未选择"}`,
       `测算方式：${input.mode || "星座"}`,
       `是否祈福改运：${input.boosted ? "是" : "否"}`,
-      "lotteryRate 用 45%-96% 的整数百分比字符串。",
-      "summary 40 字以内，shareText 要有分享欲。"
+      "lotteryRate 用 45%-96% 的整数百分比字符串，必须带 %。",
+      "summary 40 字以内，shareText 要有分享欲，所有内容都要像专属当天结果。"
     ].join("\n");
 
     try {
