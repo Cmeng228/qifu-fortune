@@ -34,6 +34,7 @@ let blessingBoost = 0;
 let currentLottery = lotteryPool[0];
 let aiFortune = null;
 let loadingTimer = null;
+const fortuneContent = () => document.querySelectorAll(".fortune-content");
 
 function getName() {
   return userNameInput.value.trim() || "神秘玩家";
@@ -143,6 +144,7 @@ function startLoading() {
   let step = 0;
   window.clearInterval(loadingTimer);
   resultScreen.classList.add("loading");
+  fortuneContent().forEach((item) => item.classList.add("hidden"));
   loadingProgress.style.width = "18%";
   loadingText.textContent = messages[0];
   steps.forEach((item, index) => item.classList.toggle("active", index === 0));
@@ -159,6 +161,7 @@ function finishLoading(hasAiResult) {
   $("#loadingProgress").style.width = "100%";
   $("#loadingText").textContent = hasAiResult ? "占卜完成，今日好运已生成。" : "占卜完成，已生成今日好运。";
   window.setTimeout(() => {
+    fortuneContent().forEach((item) => item.classList.remove("hidden"));
     $("#resultScreen").classList.remove("loading");
   }, 350);
 }
