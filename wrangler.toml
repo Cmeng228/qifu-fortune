@@ -1,6 +1,7 @@
 name = "shiny-leaf-8c2b"
 main = "cloudflare-worker/src/index.js"
 compatibility_date = "2026-06-20"
+workers_dev = true
 
 [ai]
 binding = "AI"
