@@ -87,18 +87,22 @@ function renderFortune() {
 async function fetchAiFortune() {
   const endpoint = window.AI_FORTUNE_ENDPOINT;
   if (!endpoint) return null;
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: getName(),
-      mode: mode === "constellation" ? "星座" : "生肖",
-      typeName: getTypeName(),
-      boosted: blessingBoost > 0
-    })
-  });
+  const prompt = [
+    "你是中文娱乐运势生成器，文风要像朋友间会转发的小卡片。",
+    "不要恐吓，不要承诺真实收益，不要说自己是AI。",
+    "只返回 JSON，不要 Markdown，不要解释。",
+    "字段必须是 summary, good, avoid, lotteryTitle, lotteryText, lotteryLevel, lotteryRate, shareText。",
+    `昵称：${getName()}`,
+    `类型：${getTypeName()}`,
+    `测算方式：${mode === "constellation" ? "星座" : "生肖"}`,
+    `是否祈福改运：${blessingBoost > 0 ? "是" : "否"}`,
+    "lotteryRate 用 45%-96% 的整数百分比字符串。",
+    "summary 40字以内，shareText 要有分享欲。"
+  ].join("\n");
+  const response = await fetch(`${endpoint}${encodeURIComponent(prompt)}`);
   if (!response.ok) throw new Error("AI endpoint failed");
-  return response.json();
+  const text = await response.text();
+  return JSON.parse(text.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim());
 }
 async function generateFortune() {
   aiFortune = null;
