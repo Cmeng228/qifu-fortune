@@ -29,6 +29,7 @@ const tabs = document.querySelectorAll(".tab");
 let mode = "constellation";
 let blessingBoost = 0;
 let currentLottery = lotteryPool[0];
+let aiFortune = null;
 
 function getName() {
   return userNameInput.value.trim() || "神秘玩家";
@@ -51,10 +52,10 @@ function renderLottery(seed) {
   const item = lotteryPool[boostedSeed % lotteryPool.length];
   const rate = Math.min(96, 48 + (boostedSeed % 32) + blessingBoost);
   currentLottery = item;
-  $("#lotteryTitle").textContent = `${getName()}，${item.title}`;
-  $("#lotteryText").textContent = blessingBoost > 0 ? `${item.text} 祈福已生效，今日建议抽奖次数 +1。` : item.text;
-  $("#lotteryLevel").textContent = blessingBoost > 0 && item.level === "平" ? "改运小吉" : item.level;
-  $("#lotteryRate").textContent = `${rate}%`;
+  $("#lotteryTitle").textContent = aiFortune?.lotteryTitle || `${getName()}，${item.title}`;
+  $("#lotteryText").textContent = aiFortune?.lotteryText || (blessingBoost > 0 ? `${item.text} 祈福已生效，今日建议抽奖次数 +1。` : item.text);
+  $("#lotteryLevel").textContent = aiFortune?.lotteryLevel || (blessingBoost > 0 && item.level === "平" ? "改运小吉" : item.level);
+  $("#lotteryRate").textContent = aiFortune?.lotteryRate || `${rate}%`;
   $("#lotteryHint").textContent = blessingBoost > 0 ? "祈福已修改" : "点灯后可改运";
   $("#lotteryCard").classList.toggle("boosted", blessingBoost > 0);
 }
@@ -68,20 +69,48 @@ function renderFortune() {
   $("#personalTitle").textContent = `${name}的今日好运签`;
   $("#profileLine").textContent = `${typeName} · 今日专属档案`;
   $("#resultTitle").textContent = `${typeName} · ${name}专属今日运势`;
-  $("#summaryText").textContent = `${name}，${summaries[seed % summaries.length]}`;
+  $("#summaryText").textContent = aiFortune?.summary || `${name}，${summaries[seed % summaries.length]}`;
   $("#scoreText").textContent = stars(seed, 1);
   $("#careerText").textContent = stars(seed, 2);
   $("#moneyText").textContent = stars(seed, 3);
   $("#loveText").textContent = stars(seed, 4);
   $("#healthText").textContent = stars(seed, 5);
-  $("#goodText").textContent = goods[seed % goods.length];
-  $("#avoidText").textContent = avoids[seed % avoids.length];
+  $("#goodText").textContent = aiFortune?.good || goods[seed % goods.length];
+  $("#avoidText").textContent = aiFortune?.avoid || avoids[seed % avoids.length];
   $("#colorText").textContent = color;
   $("#numberText").textContent = number;
   $("#directionText").textContent = directions[seed % directions.length];
   renderLottery(seed);
   $("#shareTitle").textContent = `${name}的今日好运卡`;
-  $("#shareText").textContent = `我抽到了「${name}的今日好运签」：${typeName}，关键词是「${keyword}」。狼人杀抽奖运势 ${$("#lotteryLevel").textContent}，气场 ${$("#lotteryRate").textContent}。${currentLottery.quote}`;
+  $("#shareText").textContent = aiFortune?.shareText || `我抽到了「${name}的今日好运签」：${typeName}，关键词是「${keyword}」。狼人杀抽奖运势 ${$("#lotteryLevel").textContent}，气场 ${$("#lotteryRate").textContent}。${currentLottery.quote}`;
+}
+async function fetchAiFortune() {
+  const endpoint = window.AI_FORTUNE_ENDPOINT;
+  if (!endpoint) return null;
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: getName(),
+      mode: mode === "constellation" ? "星座" : "生肖",
+      typeName: getTypeName(),
+      boosted: blessingBoost > 0
+    })
+  });
+  if (!response.ok) throw new Error("AI endpoint failed");
+  return response.json();
+}
+async function generateFortune() {
+  aiFortune = null;
+  if (window.AI_FORTUNE_ENDPOINT) {
+    showToast("AI 正在生成专属好运签");
+    try {
+      aiFortune = await fetchAiFortune();
+    } catch {
+      showToast("AI 暂时没接上，已用本地运势兜底");
+    }
+  }
+  renderFortune();
 }
 function resetBlessing() {
   blessingBoost = 0;
@@ -104,7 +133,7 @@ tabs.forEach((tab) => {
 function showResultScreen() {
   $("#startScreen").classList.add("hidden");
   $("#resultScreen").classList.remove("hidden");
-  renderFortune();
+  generateFortune();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 $("#startForm").addEventListener("submit", (event) => {
@@ -120,7 +149,7 @@ $("#lampButton").addEventListener("click", () => {
   blessingBoost = 18;
   $("#lampButton").classList.add("lit");
   $("#lampText").textContent = "已改运";
-  renderFortune();
+  generateFortune();
   showToast("抽奖运势已改");
 });
 $("#copyShare").addEventListener("click", async () => {
