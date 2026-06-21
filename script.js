@@ -12,11 +12,11 @@ const summaries = [
 ];
 
 const lotteryPool = [
-  { title: "今日适合抽身份皮肤", text: "活动池气场偏亮，适合小抽试水，见好就收最稳。", level: "小吉", quote: "小抽怡情，别让欧气从指缝里溜走。" },
-  { title: "今日适合攒钥匙", text: "抽奖波动偏大，先完成任务攒资源，晚点再看更好。", level: "平", quote: "忍住也是一种高级好运。" },
-  { title: "今日有稀有闪光", text: "幸运位在高光奖励附近，适合抽保底进度接近的卡池。", level: "大吉", quote: "今天的手气有点会发光。" },
-  { title: "今日适合抽头像框", text: "装扮类奖励更顺，皮肤池可以少量尝试，不宜上头。", level: "中吉", quote: "先把排面拿下，好运自然跟上。" },
-  { title: "今日先祈福再抽", text: "基础运势还没完全打开，点灯后再抽会更有仪式感。", level: "待改运", quote: "仪式感到位，抽奖才有灵魂。" }
+  { title: "今日适合看活动时装池", text: "高光目标放在永久时装和六星时装上，券和碎片只当保底进度，别误判成欧气。", level: "小吉", quote: "高光看时装，保底看进度。" },
+  { title: "今日适合攒资源不硬抽", text: "抽奖波动偏大，拿完保底券和碎片就收，等更顺的活动池再开。", level: "平", quote: "会收手的人，运气通常不会太差。" },
+  { title: "今日适合追高级装饰", text: "幸运位在头像框、聊天气泡、麦克风、弹幕和号码牌附近，适合小抽试水。", level: "大吉", quote: "今天的排面奖励有点会发光。" },
+  { title: "今日适合小抽装扮池", text: "装饰目标比时装更顺，优先看头像框和聊天气泡，抽到保底资源就稳住。", level: "中吉", quote: "先拿排面，再谈高光。" },
+  { title: "今日先祈福再决定", text: "基础气场还没完全打开，点灯后再看是否冲永久时装或高级装饰。", level: "待改运", quote: "仪式感到位，收手线也要到位。" }
 ];
 
 const goods = ["整理计划、主动沟通、学习充电", "签到领资源、复盘账目、早点睡", "见朋友、做决定、清理桌面", "写下目标、散步、点灯祈愿"];
@@ -63,7 +63,7 @@ function renderLottery(seed) {
   const rate = Math.min(96, 48 + (boostedSeed % 32) + blessingBoost);
   currentLottery = item;
   $("#lotteryTitle").textContent = aiFortune?.lotteryTitle || `${getName()}，${item.title}`;
-  $("#lotteryText").textContent = aiFortune?.lotteryText || (blessingBoost > 0 ? `${item.text} 祈福已生效，今日建议抽奖次数 +1。` : item.text);
+  $("#lotteryText").textContent = aiFortune?.lotteryText || (blessingBoost > 0 ? `${item.text} 祈福已生效，可以小抽 1-3 次，拿到保底资源别上头。` : item.text);
   $("#lotteryLevel").textContent = aiFortune?.lotteryLevel || (blessingBoost > 0 && item.level === "平" ? "改运小吉" : item.level);
   $("#lotteryRate").textContent = aiFortune?.lotteryRate || `${rate}%`;
   $("#lotteryHint").textContent = blessingBoost > 0 ? "祈福已修改" : "点灯后可改运";
